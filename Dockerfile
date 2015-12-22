@@ -35,5 +35,12 @@ EXPOSE 80
 VOLUME /usr/local/nginx
 # COPY ./site/ /usr/local/nginx
 
+# Apply Nginx and PHP setting by automatically calculating appropriate value
+
+# NGINX
+# worker_processes equal to number of cores
+sed -i "s/worker_processes.*/worker_processes `cat /proc/cpuinfo |grep processor|wc -l`;/" /etc/nginx/nginx.conf
+
+
 # try to run nginx
 CMD ["/usr/bin/supervisord", "-n"]
