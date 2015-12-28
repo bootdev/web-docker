@@ -12,6 +12,10 @@ COPY ./etc/yum.repos.d/nginx.repo /etc/yum.repos.d/
 RUN yum -y --enablerepo=remi,remi-php56 install nginx php-fpm php-common \
     php-mysql php-cli php-xml tar wget python-pip
 
+# Config standard error to be the error log
+RUN ln -sf /dev/stderr /var/log/nginx/error.log
+RUN ln -sf /dev/stderr /var/log/php-fpm/error.log
+
 # Install supervisor
 RUN yum -y install supervisor
 RUN pip install supervisor-stdout
@@ -39,8 +43,7 @@ VOLUME /usr/local/nginx
 
 # NGINX
 # worker_processes equal to number of cores
-sed -i "s/worker_processes.*/worker_processes `cat /proc/cpuinfo |grep processor|wc -l`;/" /etc/nginx/nginx.conf
-
+CMD ['sed -i "s/worker_processes.*/worker_processes `cat /proc/cpuinfo |grep processor|wc -l`;/" /etc/nginx/nginx.conf']
 
 # try to run nginx
 CMD ["/usr/bin/supervisord", "-n"]
