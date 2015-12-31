@@ -26,8 +26,8 @@ RUN sed -i -e "s/;daemonize\s*=\s*yes/daemonize = no/g" /etc/php-fpm.conf
 
 #RUN sed -i 's/^listen.allowed_clients/;listen.allowed_clients/' /etc/php-fpm.d/www.conf && \
 
-RUN mkdir -p /srv/http && \
-    chown -R nginx:nginx /srv/http && \
+RUN mkdir -p /usr/local/nginx && \
+    chown -R nginx:nginx /usr/local/nginx && \
     chown -R nginx:nginx /var/run/php-fpm
 
 #RUN Nginx and PHP-FPM
@@ -37,7 +37,6 @@ COPY ./conf/www.conf /etc/php-fpm.d/www.conf
 
 EXPOSE 80
 VOLUME /usr/local/nginx
-# COPY ./site/ /usr/local/nginx
 
 # Apply Nginx and PHP setting by automatically calculating appropriate value
 
