@@ -10,7 +10,9 @@ RUN rpm -Uvh http://rpms.famillecollet.com/enterprise/remi-release-7.rpm
 COPY ./etc/yum.repos.d/nginx.repo /etc/yum.repos.d/
 
 RUN yum -y --enablerepo=remi,remi-php56 install nginx php-fpm php-common \
-    php-mysql php-cli php-xml tar wget python-pip
+    php-mysql php-cli php-xml php-gd php-mbstring php-opcache php-pdo \
+    php-process php-pecl-memcached php-xml php-xmlrpc \
+    tar wget python-pip
 
 # Config standard error to be the error log
 RUN ln -sf /dev/stderr /var/log/nginx/error.log
